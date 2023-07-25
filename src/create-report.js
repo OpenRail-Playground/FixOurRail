@@ -104,12 +104,13 @@ export default async function(findings) {
 	//const entriesDisconnectedTracks = disconnectedTracks.map(createDisconnectedDataEntry)
 
 	const options = { compact: true, ignoreComment: true, spaces: 4 }
+	const date = new Date()
 	const data = {
 		_declaration: { _attributes: { version: '1.0', encoding: 'utf-8' } },
 		analysers: {
 			analyser: {
 				_attributes: {
-					timestamp: '2023-06-29T09:52:58Z',
+					timestamp: date,
 				},
 				class: [{
 					_attributes: {
@@ -174,7 +175,7 @@ export default async function(findings) {
 				],
 			},
 			_attributes: {
-				timestamp: '2023-06-29T09:52:58Z',
+				timestamp: date.toISOString(),
 			},
 		},
 	}
