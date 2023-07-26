@@ -28,12 +28,6 @@ export default async function(findings) {
 					version: error.version,
 				},
 			},
-			text: {
-				_attributes: {
-					lang: 'en',
-					value: '4 vertices and no crossing',
-				},
-			},
 		}
 		return dataEntry
 	})
@@ -58,12 +52,19 @@ export default async function(findings) {
 					version: error.version,
 				},
 			},
-			text: {
-				_attributes: {
-					lang: 'en',
-					value: 'suspicious angle on way: ' + error.angle,
-				},
-			},
+			text: [
+				{
+					_attributes: {
+						lang: 'en',
+						value: 'Suspicious angle: ' + error.angle,
+					}
+				}, {
+					_attributes: {
+						lang: 'fr',
+						value: 'Angle douteux: ' + error.angle,
+					}
+				}
+			],
 		}
 		return dataEntry
 	})
@@ -88,12 +89,17 @@ export default async function(findings) {
 					version: error.version,
 				},
 			},
-			text: {
+			text: [{
 				_attributes: {
 					lang: 'en',
-					value: 'more than four edges on node: ' + error.edgeCount,
-				},
-			},
+					value: 'Number of edges on railway node: ' + error.edgeCount,
+				}
+			},{
+				_attributes: {
+					lang: 'fr',
+					value: 'Nombre d’arcs sur le nœud ferroviaire: ' + error.edgeCount,
+				}
+			}],
 		}
 		return dataEntry
 	})
@@ -107,63 +113,85 @@ export default async function(findings) {
 		analysers: {
 			analyser: {
 				_attributes: {
-					timestamp: date,
+					timestamp: date.toISOString(),
 				},
 				class: [{
 					_attributes: {
-						id: 12345,
+						id: 1,
 						level: 2,
-						item: 1010,
+						item: 1301,
+						tags: ['geom', 'railway'],
+						source: 'https://github.com/osrd-project/fixOurRail',
 					},
-					classtext: {
-						_attributes: {
-							lang: 'en',
-							title: 'way angles',
+					classtext: [
+						{
+							_attributes: {
+								lang: 'en',
+								title: 'Suspicious way angles',
+								detail: 'Trains cannot take sharp angles. This might indicate missing nodes on the way or misplaces nodes.'
+							},
 						},
-					},
+						{
+							_attributes:{
+								lang: 'fr',
+								title: 'Angles de way ferroviaire douteux',
+								detail: 'Les trains ne peuvent pas prendre d’angle serrés. Cela peut indiquer un manque de nœuds le long du way, ou un nœud mal placé'
+							}
+						}
+					],
 				},
 				{
 					_attributes: {
-						id: 12346,
+						id: 2,
 						level: 2,
-						item: 1020,
+						item: 1302,
+						tags: ['railway'],
+						source: 'https://github.com/osrd-project/fixOurRail',
 					},
-					classtext: {
-						_attributes: {
-							lang: 'en',
-							title: 'too many edges',
+					classtext: [
+						{
+							_attributes: {
+								lang: 'en',
+								title: 'Too many edges at a rail switch',
+								detail: 'Swiches usually allow only to go from on edge to two others. If there is more, it often means that two consecutive switches are merged into one.'
+							}
 						},
-					},
-				},
-				{
-					_attributes: {
-						id: 12347,
-						level: 2,
+						{
+							_attributes: {
+								lang: 'fr',
+								title: 'Trop d’arcs a un aiguillage ferroviaire',
+								detail: 'Un aiguillage permet habituellement de passer d’un arc vers deux autres. S’il y en a plus, cela représente souvent deux aiguillages mappés comme un seul.'
+							}
+						}
 
-						item: 1020,
-					},
-					classtext: {
-						_attributes: {
-							lang: 'en',
-							title: '4 edges no crossing',
-						},
-					},
+					],
 				},
 				{
 					_attributes: {
-						id: 12348,
+						id: 3,
 						level: 2,
-
-						item: 1030,
+						tags: ['railway'],
+						item: 1303,
+						source: 'https://github.com/osrd-project/fixOurRail',
 					},
-					classtext: {
-						_attributes: {
-							lang: 'en',
-							title: 'disconnected tracks',
-						},
-					},
-				},
-				],
+					classtext: [
+						{
+							_attributes: {
+								lang: 'en',
+								title: '4 rail edges no crossing and no railway=railway_crossing',
+								detail: 'When two rail tracks cross at level without a switch, it should be tagged as a crossing.',
+								fix: 'Add the tag railway=railway_crossing on the common node (or a switch, bridge, tunnel).'
+							}
+						}, {
+							_attributes: {
+								lang: 'fr',
+								title: '4 arcs ferrovaires et pas de tag railway=railway_crossing',
+								detail: 'Lorsque deux voies ferrées se croisent sans aiguillage, il faut tagger le croisement à niveau.',
+								fix: 'Ajouter le tag railway=railway_crossing sur le nœud en commun (ou une aiguille, pont ou tunnel).'
+							}
+						}
+					],
+				}],
 				error: [
 					...entriesFourVerticesNoCrossing,
 					...entriesSuspiciousAngle,
