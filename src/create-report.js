@@ -11,8 +11,7 @@ export default async function(findings) {
 	const entriesMoreThanFourEdges = moreThanFourEdges.map(error => {
 		const dataEntry = {
 			_attributes: {
-				class: '12347',
-				subclass: '1',
+				class: 3,
 			},
 			location: {
 				_attributes: {
@@ -42,8 +41,7 @@ export default async function(findings) {
 	const entriesSuspiciousAngle = suspiciousAngle.map(error => {
 		const dataEntry = {
 			_attributes: {
-				class: '12345',
-				subclass: '1',
+				class: 1,
 			},
 			location: {
 				_attributes: {
@@ -73,8 +71,7 @@ export default async function(findings) {
 	const entriesFourVerticesNoCrossing = fourVerticesNoCrossing.map(error => {
 		const dataEntry = {
 			_attributes: {
-				class: '12346',
-				subclass: '1',
+				class: 2,
 			},
 			location: {
 				_attributes: {
